@@ -1,0 +1,183 @@
+{% load resume_filters %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resume.title }}</title>
+    <style>
+        body {
+            font-family: 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .btn-success { background: rgba(34, 197, 94, 0.8); }
+        .btn-success:hover { background: rgba(34, 197, 94, 1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📄 {{ resume.title }}</h1>
+            <a href="/resumes/" class="btn">📋 بازگشت به لیست</a>
+            <a href="/" class="btn">🏠 صفحه اصلی</a>
+            <a href="/resumes/{{ resume.id }}/pdf/" class="btn btn-success" target="_blank">📄 نمایش برای چاپ</a>
+            <a href="/resumes/{{ resume.id }}/copy/" class="btn btn-success">📋 کپی رزومه</a>
+        </div>
+
+        <div class="section">
+            <h3>📋 اطلاعات کلی</h3>
+            <p><strong>عنوان رزومه:</strong> {{ resume.title }}</p>
+            <p><strong>شرکت هدف:</strong> {{ resume.company_name }}</p>
+            <p><strong>سمت مورد نظر:</strong> {{ resume.job_title }}</p>
+            <p><strong>دسته‌بندی شغلی:</strong> {{ resume.get_job_category_display }}</p>
+            <p><strong>نوع قرارداد:</strong> {{ resume.get_contract_type_display }}</p>
+            {% if resume.target_salary %}
+                <p><strong>حقوق مورد انتظار:</strong> {{ resume.target_salary|format_salary }}</p>
+            {% endif %}
+            <p><strong>تاریخ ایجاد:</strong> {{ resume.created_at|persian_date }} / {{ resume.created_at|date:"Y/m/d H:i" }}</p>
+            {% if resume.job_source %}
+                <p><strong>منبع آگهی:</strong> {{ resume.job_source.name }}</p>
+            {% endif %}
+            {% if resume.job_ad_url %}
+                <p><strong>آدرس آگهی:</strong> <a href="{{ resume.job_ad_url }}" target="_blank" style="color: #60a5fa;">مشاهده آگهی</a></p>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h3>👤 اطلاعات شخصی</h3>
+            <p><strong>نام:</strong> {{ resume.personal_info.name }}</p>
+            <p><strong>ایمیل:</strong> {{ resume.personal_info.email }}</p>
+            <p><strong>تلفن:</strong> {{ resume.personal_info.phone }}</p>
+            {% if resume.personal_info.address %}
+                <p><strong>آدرس:</strong> {{ resume.personal_info.address }}</p>
+            {% endif %}
+            
+            <!-- اطلاعات تکمیلی -->
+            {% if resume.personal_info.marital_status %}
+                <p><strong>وضعیت تاهل:</strong> {{ resume.personal_info.get_marital_status_display }}</p>
+            {% endif %}
+            {% if resume.personal_info.military_status %}
+                <p><strong>وضعیت سربازی:</strong> {{ resume.personal_info.get_military_status_display }}</p>
+            {% endif %}
+            {% if resume.personal_info.expected_salary %}
+                <p><strong>حقوق مورد انتظار:</strong> {{ resume.personal_info.expected_salary|format_salary }}</p>
+            {% endif %}
+            
+            <!-- شبکه‌های اجتماعی -->
+            {% if resume.personal_info.linkedin %}
+                <p><strong>لینکدین:</strong> <a href="{{ resume.personal_info.linkedin }}" target="_blank" style="color: #60a5fa;">{{ resume.personal_info.linkedin }}</a></p>
+            {% endif %}
+            {% if resume.personal_info.github %}
+                <p><strong>گیت‌هاب:</strong> <a href="{{ resume.personal_info.github }}" target="_blank" style="color: #60a5fa;">{{ resume.personal_info.github }}</a></p>
+            {% endif %}
+            {% if resume.personal_info.website %}
+                <p><strong>وبسایت:</strong> <a href="{{ resume.personal_info.website }}" target="_blank" style="color: #60a5fa;">{{ resume.personal_info.website }}</a></p>
+            {% endif %}
+        </div>
+
+        {% if resume.custom_summary %}
+        <div class="section">
+            <h3>📝 خلاصه سفارشی</h3>
+            <p>{{ resume.custom_summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.company_match_reason %}
+        <div class="section" style="background: rgba(2, 132, 199, 0.2); border: 1px solid rgba(2, 132, 199, 0.4);">
+            <h3>🎯 چرا این رزومه برای {{ resume.company_name }} مناسب است؟</h3>
+            <p>{{ resume.company_match_reason }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.copied_from %}
+        <div class="section" style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4);">
+            <h3>📋 کپی شده از</h3>
+            <p>این رزومه از "<a href="/resumes/{{ resume.copied_from.id }}/" style="color: #fbbf24;">{{ resume.copied_from.title }}</a>" کپی شده است.</p>
+        </div>
+        {% endif %}
+
+        {% if resume.company_notes %}
+        <div class="section" style="background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.4);">
+            <h3>📝 یادداشت‌های شخصی درباره شرکت</h3>
+            <p>{{ resume.company_notes }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.selected_experiences.all %}
+        <div class="section">
+            <h3>💼 سوابق کاری انتخابی</h3>
+            {% for exp in resume.selected_experiences.all %}
+                <div style="margin-bottom: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <h4>{{ exp.position }} - {{ exp.company }}</h4>
+                    <p><small>{{ exp.start_date|date:"Y/m" }} - {% if exp.is_current %}حاضر{% else %}{{ exp.end_date|date:"Y/m" }}{% endif %}</small></p>
+                    <p>{{ exp.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.selected_skills.all %}
+        <div class="section">
+            <h3>🎯 مهارت‌های انتخابی</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for skill in resume.selected_skills.all %}
+                    <span style="background: rgba(34, 197, 94, 0.8); padding: 5px 15px; border-radius: 15px; font-size: 0.9rem;">
+                        {{ skill.name }}
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if resume.selected_educations.all %}
+        <div class="section">
+            <h3>🎓 تحصیلات انتخابی</h3>
+            {% for edu in resume.selected_educations.all %}
+                <div style="margin-bottom: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <h4>{{ edu.degree }} - {{ edu.field }}</h4>
+                    <p><strong>دانشگاه:</strong> {{ edu.university }}</p>
+                    <p><small>{{ edu.start_date|date:"Y/m" }} - {% if edu.is_current %}در حال تحصیل{% else %}{{ edu.end_date|date:"Y/m" }}{% endif %}</small></p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+{% load resume_filters %}
+<!DOCTYPE html>
+<html lang="{% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}{{ resume.language }}{% else %}fa{% endif %}" dir="{% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}ltr{% else %}rtl{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}'Arial', 'Helvetica', sans-serif{% else %}'Vazir', 'Tahoma', Arial, sans-serif{% endif %};
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            direction: {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}ltr{% else %}rtl{% endif %};
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .job-title {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #1e40af;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .personal-info {
+            background: #f8fafc;
+            padding: 15px;
+            {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}border-left{% else %}border-right{% endif %}: 4px solid #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .personal-info p {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}border-left{% else %}border-right{% endif %}: 3px solid #10b981;
+        }
+
+        .experience-item h3, .education-item h3 {
+            font-size: 16px;
+            color: #059669;
+            margin-bottom: 5px;
+        }
+
+        .experience-item .company, .education-item .university {
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 13px;
+            color: #4b5563;
+            text-align: justify;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background: #2563eb;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .summary {
+            background: #fef3c7;
+            padding: 15px;
+            {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}border-left{% else %}border-right{% endif %}: 4px solid #f59e0b;
+            margin-bottom: 25px;
+            font-size: 13px;
+            text-align: justify;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+        .print-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #3b82f6;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="print-info">
+        {% if resume.language == 'en' %}💡 Use browser Print menu to generate PDF (Ctrl+P or Cmd+P)
+        {% elif resume.language == 'de' %}💡 Verwenden Sie das Browser-Druckmenü, um PDF zu erstellen (Strg+P oder Cmd+P)
+        {% elif resume.language == 'fr' %}💡 Utilisez le menu Imprimer du navigateur pour générer un PDF (Ctrl+P ou Cmd+P)
+        {% elif resume.language == 'ar' %}💡 استخدم قائمة طباعة المتصفح لإنشاء ملف PDF (Ctrl+P أو Cmd+P)
+        {% else %}💡 برای تولید PDF از منوی Print مرورگر استفاده کنید (Ctrl+P یا Cmd+P)
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{ resume.personal_info.name }}</h1>
+            <div class="job-title">{{ resume.job_title }}</div>
+            <div class="contact-info">
+                <span>📧 {{ resume.personal_info.email }}</span>
+                <span>📱 {{ resume.personal_info.phone }}</span>
+                {% if resume.personal_info.address %}
+                    <span>🏠 {{ resume.personal_info.address }}</span>
+                {% endif %}
+                {% if resume.personal_info.linkedin %}
+                    <span>🔗 LinkedIn</span>
+                {% endif %}
+                {% if resume.personal_info.github %}
+                    <span>💻 GitHub</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- اطلاعات شخصی -->
+        <div class="personal-info">
+            <strong>
+                {% if resume.language == 'en' %}
+                    {% if resume.contract_type == 'remote' %}Open to remote work{% elif resume.contract_type == 'part_time' %}Available for part-time only{% else %}Available for full-time work{% endif %}{% if resume.target_salary %} - Expected salary: {{ resume.target_salary|format_salary }}{% endif %}
+                {% elif resume.language == 'de' %}
+                    {% if resume.contract_type == 'remote' %}Bereit für Remote-Arbeit{% elif resume.contract_type == 'part_time' %}Nur für Teilzeit verfügbar{% else %}Für Vollzeit verfügbar{% endif %}{% if resume.target_salary %} - Erwartetes Gehalt: {{ resume.target_salary|format_salary }}{% endif %}
+                {% elif resume.language == 'fr' %}
+                    {% if resume.contract_type == 'remote' %}Ouvert au télétravail{% elif resume.contract_type == 'part_time' %}Disponible pour temps partiel uniquement{% else %}Disponible pour temps plein{% endif %}{% if resume.target_salary %} - Salaire attendu: {{ resume.target_salary|format_salary }}{% endif %}
+                {% elif resume.language == 'ar' %}
+                    {% if resume.contract_type == 'remote' %}أرغب في العمل عن بُعد{% elif resume.contract_type == 'part_time' %}متاح للعمل بدوام جزئي فقط{% else %}متاح للعمل بدوام كامل{% endif %}{% if resume.target_salary %} - الراتب المتوقع: {{ resume.target_salary|format_salary }}{% endif %}
+                {% else %}
+                    {% if resume.contract_type == 'remote' %}تمایل به همکاری به صورت دورکاری دارم{% elif resume.contract_type == 'part_time' %}آمادگی کار فقط به صورت پاره‌وقت{% else %}آمادگی کار به صورت تمام‌وقت{% endif %}{% if resume.target_salary %} - حقوق مورد انتظار: {{ resume.target_salary|format_salary }}{% endif %}
+                {% endif %}
+            </strong>
+        </div>
+
+        <!-- خلاصه -->
+        {% if resume.custom_summary or resume.personal_info.summary %}
+        <div class="summary">
+            <h2>
+                {% if resume.language == 'en' %}📝 Summary
+                {% elif resume.language == 'de' %}📝 Zusammenfassung
+                {% elif resume.language == 'fr' %}📝 Résumé
+                {% elif resume.language == 'ar' %}📝 الملخص
+                {% else %}📝 خلاصه
+                {% endif %}
+            </h2>
+            {% if resume.custom_summary %}
+                {{ resume.custom_summary|safe }}
+            {% else %}
+                {{ resume.personal_info.summary|safe }}
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- توضیح انطباق با شرکت -->
+        {% if resume.company_match_reason %}
+        <div class="summary" style="background: #f0f9ff; {% if resume.language == 'en' or resume.language == 'de' or resume.language == 'fr' %}border-left{% else %}border-right{% endif %}: 4px solid #0284c7;">
+            <h2 style="color: #0284c7;">
+                {% if resume.language == 'en' %}🎯 Why this resume is suitable for {{ resume.company_name }}?
+                {% elif resume.language == 'de' %}🎯 Warum ist dieser Lebenslauf für {{ resume.company_name }} geeignet?
+                {% elif resume.language == 'fr' %}🎯 Pourquoi ce CV convient-il à {{ resume.company_name }}?
+                {% elif resume.language == 'ar' %}🎯 لماذا تناسب هذه السيرة الذاتية {{ resume.company_name }}؟
+                {% else %}🎯 چرا این رزومه برای {{ resume.company_name }} مناسب است؟
+                {% endif %}
+            </h2>
+            {{ resume.company_match_reason }}
+        </div>
+        {% endif %}
+
+        <!-- مهارت‌ها -->
+        {% if resume.selected_skills.all %}
+        <div class="section">
+            <h2>
+                {% if resume.language == 'en' %}🎯 Skills
+                {% elif resume.language == 'de' %}🎯 Fähigkeiten
+                {% elif resume.language == 'fr' %}🎯 Compétences
+                {% elif resume.language == 'ar' %}🎯 المهارات
+                {% else %}🎯 مهارت‌ها
+                {% endif %}
+            </h2>
+            <div class="skills">
+                {% for skill in resume.selected_skills.all %}
+                    {% with skill_name=skill|skill_translation:resume.language %}
+                        <span class="skill-tag">{{ skill_name }}</span>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- سوابق کاری -->
+        {% if resume.get_ordered_experiences %}
+        <div class="section">
+            <h2>
+                {% if resume.language == 'en' %}💼 Work Experience
+                {% elif resume.language == 'de' %}💼 Berufserfahrung
+                {% elif resume.language == 'fr' %}💼 Expérience professionnelle
+                {% elif resume.language == 'ar' %}💼 الخبرة المهنية
+                {% else %}💼 سوابق کاری
+                {% endif %}
+            </h2>
+            {% for exp in resume.get_ordered_experiences %}
+                <div class="experience-item">
+                    {% with exp_position=exp|experience_position_translation:resume.language exp_company=exp|experience_company_translation:resume.language exp_desc=exp|experience_description_translation:resume.language %}
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                        <div>
+                            <strong style="color: #059669; font-size: 15px;">{{ exp_position }}</strong>
+                            <span style="color: #374151; margin-left: 8px; margin-right: 8px;">•</span>
+                            <span style="color: #374151;">{{ exp_company }}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #6b7280; white-space: nowrap;">
+                            {% if resume.language == 'fa' or resume.language == 'ar' %}
+                                {{ exp.start_date|persian_date:"Y/m" }} - {% if exp.is_current %}حاضر{% else %}{{ exp.end_date|persian_date:"Y/m" }}{% endif %}
+                            {% else %}
+                                {{ exp.start_date|date:"Y/m" }} - {% if exp.is_current %}Current{% else %}{{ exp.end_date|date:"Y/m" }}{% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="description">{{ exp_desc|safe }}</div>
+                    {% endwith %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- تحصیلات -->
+        {% if resume.get_ordered_educations %}
+        <div class="section">
+            <h2>
+                {% if resume.language == 'en' %}🎓 Education
+                {% elif resume.language == 'de' %}🎓 Ausbildung
+                {% elif resume.language == 'fr' %}🎓 Éducation
+                {% elif resume.language == 'ar' %}🎓 التعليم
+                {% else %}🎓 تحصیلات
+                {% endif %}
+            </h2>
+            {% for edu in resume.get_ordered_educations %}
+                <div class="education-item">
+                    {% with edu_degree=edu|education_degree_translation:resume.language edu_field=edu|education_field_translation:resume.language edu_university=edu|education_university_translation:resume.language %}
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                        <div>
+                            <strong style="color: #059669; font-size: 15px;">{{ edu_degree }} - {{ edu_field }}</strong>
+                            <span style="color: #374151; margin-left: 8px; margin-right: 8px;">•</span>
+                            <span style="color: #374151;">{{ edu_university }}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #6b7280; white-space: nowrap;">
+                            {% if resume.language == 'fa' or resume.language == 'ar' %}
+                                {{ edu.start_date|persian_date:"Y/m" }} - {% if edu.is_current %}در حال تحصیل{% else %}{{ edu.end_date|persian_date:"Y/m" }}{% endif %}
+                            {% else %}
+                                {{ edu.start_date|date:"Y/m" }} - {% if edu.is_current %}Currently studying{% else %}{{ edu.end_date|date:"Y/m" }}{% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endwith %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- اطلاعات تکمیلی -->
+        <div style="margin-top: 40px; padding: 10px; background: #f9fafb; border-radius: 8px; font-size: 12px; color: #6b7280;">
+            {% if resume.personal_info.marital_status or resume.personal_info.military_status %}
+                {% if resume.personal_info.marital_status %}
+                    وضعیت تاهل: {{ resume.personal_info.get_marital_status_display }}
+                {% endif %}
+                {% if resume.personal_info.marital_status and resume.personal_info.military_status %} • {% endif %}
+                {% if resume.personal_info.military_status %}
+                    وضعیت سربازی: {{ resume.personal_info.get_military_status_display }}
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            {% if resume.language == 'fa' or resume.language == 'ar' %}
+                تولید شده در {{ resume.created_at|persian_date:"Y/m/d" }} - {{ resume.company_name }}
+            {% else %}
+                Generated on {{ resume.created_at|date:"Y/m/d" }} - {{ resume.company_name }}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

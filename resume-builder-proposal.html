@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم رزومه‌ساز اختصاصی - پیشنهاد پروژه</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            line-height: 1.8;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 8px;
+            background: #f8f9ff;
+            border-right: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2::before {
+            content: "●";
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 20px 0 15px 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-right: 3px solid #28a745;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .feature h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .tech-item h4 {
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+        
+        .db-structure {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .table th,
+        .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: right;
+        }
+        
+        .table th {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .workflow-step {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .workflow-step::after {
+            content: "←";
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+        
+        .workflow-step:first-child::after {
+            display: none;
+        }
+        
+        .workflow-step h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-right: 4px solid #e17055;
+        }
+        
+        .highlight h3 {
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            padding-right: 20px;
+            margin: 10px 0;
+        }
+        
+        li {
+            margin: 8px 0;
+            padding: 5px 0;
+        }
+        
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63031;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 سیستم رزومه‌ساز اختصاصی</h1>
+            <p>راه‌حل هوشمند برای تولید رزومه‌های هدفمند و حرفه‌ای</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>📋 تحلیل نیازمندی�h2>
+                <p>بر اساس بررسی رزومه و آگهی‌های شغلی شما، مشخص شده که نیاز به یک سیستم دارید که:</p>
+                <ul>
+                    <li>بتواند سریع رزومه‌های مختلف برای حوزه‌های مختلف تولید کند</li>
+                    <li>قابلیت اضافه کردن مهارت‌های خاص بر اساس نیاز کارفرما</li>
+                    <li>پشتیبانی از زبان فارسی و انگلیسی</li>
+                    <li>تولید فایل PDF نهایی</li>
+                    <li>ردیابی نتایج ارسال رزومه</li>
+                    <li>پنل مدیریت برای ویرایش و مدیریت</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🏗️ معماری سیستم پیشنهادی</h2>
+                
+                <div class="features">
+                    <div class="feature">
+                        <h4>🎨 رابط کاربری</h4>
+                        <p>پنل مدیریت تحت وب با امکان ویرایش آسان اطلاعات، افزودن نمونه کارها و مهارت‌های جدید</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>📊 مدیریت داده</h4>
+                        <p>ذخیره اطلاعات پایه، تمپلیت‌های مختلف و ردیابی درخواست‌های ارسالی</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>🚀 تولید خودکار</h4>
+                        <p>تولید رزومه بر اساس تمپلیت انتخابی و خروجی PDF با کیفیت بالا</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>📈 ردیابی نتایج</h4>
+                        <p>سیستم ردیابی برای مشاهده وضعیت ارسال رزومه و فیدبک‌های دریافتی</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 فناوری‌های پیشنهادی</h2>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <h4>Backend</h4>
+                        <p><code>PHP 8.3 + Laravel 10</code></p>
+                        <p>با توجه به تخصص شما در Laravel، بهترین انتخاب برای توسعه سریع و مطمئن</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Frontend</h4>
+                        <p><code>Vue.js 3 + Inertia.js</code></p>
+                        <p>یا <code>Blade Templates + Livewire</code></p>
+                        <p>برای سادگی و سرعت توسعه</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Database</h4>
+                        <p><code>MySQL 8.0</code></p>
+                        <p>مطابق درخواست شما و تخصص موجود</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>PDF Generation</h4>
+                        <p><code>wkhtmltopdf</code> یا <code>Puppeteer</code></p>
+                        <p>برای تولید PDF با کیفیت از HTML</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🗃️ ساختار دیتابیس</h2>
+                
+                <div class="db-structure">
+                    <h3>جداول اصلی:</h3>
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>جدول</th>
+                                <th>توضیحات</th>
+                                <th>فیلدهای کلیدی</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>personal_info</td>
+                                <td>اطلاعات شخصی پایه</td>
+                                <td>نام، شماره، ایمیل، آدرس، تصویر</td>
+                            </tr>
+                            <tr>
+                                <td>experiences</td>
+                                <td>تجربیات کاری</td>
+                                <td>شرکت، سمت، تاریخ شروع/پایان، شرح</td>
+                            </tr>
+                            <tr>
+                                <td>skills</td>
+                                <td>مهارت‌های تخصصی</td>
+                                <td>نام مهارت، سطح، دسته‌بندی</td>
+                            </tr>
+                            <tr>
+                                <td>projects</td>
+                                <td>نمونه کارها و پروژه‌ها</td>
+                                <td>عنوان، توضیحات، لینک، تصاویر</td>
+                            </tr>
+                            <tr>
+                                <td>resume_templates</td>
+                                <td>قالب‌های مختلف رزومه</td>
+                                <td>نام، فایل HTML، استایل CSS</td>
+                            </tr>
+                            <tr>
+                                <td>job_applications</td>
+                                <td>درخواست‌های ارسالی</td>
+                                <td>شرکت، تاریخ ارسال، وضعیت، فیدبک</td>
+                            </tr>
+                            <tr>
+                                <td>generated_resumes</td>
+                                <td>رزومه‌های تولید شده</td>
+                                <td>قالب، مهارت‌های انتخابی، فایل PDF</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 فرآیند کاری سیستم</h2>
+                
+                <div class="workflow">
+                    <div class="workflow-step">
+                        <h4>1. آماده‌سازی</h4>
+                        <p>تکمیل اطلاعات پایه، مهارت‌ها و تجربیات</p>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <h4>2. تحلیل آگهی</h4>
+                        <p>بررسی نیازمندی‌های شغلی و انتخاب مهارت‌های مرتبط</p>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <h4>3. انتخاب قالب</h4>
+                        <p>انتخاب تمپلیت مناسب (فارسی/انگلیسی)</p>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <h4>4. تولید رزومه</h4>
+                        <p>ایجاد خودکار رزومه و تولید PDF</p>
+                    </div>
+                    
+                    <div class="workflow-step">
+                        <h4>5. ردیابی</h4>
+                        <p>ثبت اطلاعات ارسال و پیگیری نتایج</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⚡ ویژگی‌های کلیدی سیستم</h2>
+                
+                <div class="features">
+                    <div class="feature">
+                        <h4>🎯 هدفمندسازی</h4>
+                        <p>قابلیت تطبیق رزومه با نیازمندی‌های مشخص هر آگهی شغلی</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>🌐 چندزبانه</h4>
+                        <p>پشتیبانی کامل از فارسی (RTL) و انگلیسی (LTR)</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>📱 طراحی ریسپانسیو</h4>
+                        <p>قابل استفاده در تمام دستگاه‌ها (موبایل، تبلت، دسکتاپ)</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>🔒 امنیت</h4>
+                        <p>احراز هویت، مجوزهای دسترسی و رمزنگاری اطلاعات</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>💾 پشتیبان‌گیری</h4>
+                        <p>سیستم خودکار پشتیبان‌گیری از اطلاعات و فایل‌ها</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h4>📊 آمار و گزارش</h4>
+                        <p>نمایش آمار ارسال، نرخ موفقیت و تحلیل عملکرد</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>🚀 مزایای استفاده از Laravel برای این پروژه:</h3>
+                <ul>
+                    <li><strong>سرعت توسعه:</strong> با توجه به تخصص شما در Laravel، توسعه بسیار سریع‌تر خواهد بود</li>
+                    <li><strong>Blade Templates:</strong> برای تولید قالب‌های HTML رزومه ایده‌آل است</li>
+                    <li><strong>Eloquent ORM:</strong> مدیریت ساده روابط پیچیده بین داده‌ها</li>
+                    <li><strong>Queue System:</strong> برای پردازش تولید PDF در پس‌زمینه</li>
+                    <li><strong>Storage System:</strong> مدیریت فایل‌های PDF و تصاویر</li>
+                    <li><strong>Middleware:</strong> کنترل دسترسی و احراز هویت</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>📅 برنامه زمانی پیشنهادی</h2>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>فاز</th>
+                            <th>مدت زمان</th>
+                            <th>شرح کارها</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>فاز 1</td>
+                            <td>1-2 هفته</td>
+                            <td>طراحی دیتابیس، Authentication، پنل مدیریت پایه</td>
+                        </tr>
+                        <tr>
+                            <td>فاز 2</td>
+                            <td>2-3 هفته</td>
+                            <td>سیستم مدیریت محتوا، ایجاد قالب‌ها، تولید HTML</td>
+                        </tr>
+                        <tr>
+                            <td>فاز 3</td>
+                            <td>1-2 هفته</td>
+                            <td>تولید PDF، سیستم ردیابی، تست‌ها</td>
+                        </tr>
+                        <tr>
+                            <td>فاز 4</td>
+                            <td>1 هفته</td>
+                            <td>بهینه‌سازی، رفع باگ‌ها، مستندسازی</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>🔧 پیش‌نیازهای فنی</h2>
+                <ul>
+                    <li><code>PHP 8.3+</code></li>
+                    <li><code>Laravel 10+</code></li>
+                    <li><code>MySQL 8.0+</code></li>
+                    <li><code>Composer</code></li>
+                    <li><code>Node.js & NPM</code> (برای asset compilation)</li>
+                    <li><code>wkhtmltopdf</code> یا <code>Puppeteer</code> (برای PDF)</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <h3>💡 پیشنهاد نهایی:</h3>
+                <p>با توجه به تخصص و تجربه شما در Laravel و نیازمندی‌های مشخص شده، این پروژه به صورت تدریجی قابل توسعه است. شروع با یک MVP ساده و بعد اضافه کردن ویژگی‌های پیشرفته‌تر.</p>
+                
+                <p><strong>مرحله اول:</strong> سیستم پایه با قابلیت تولید یک قالب ساده</p>
+                <p><strong>مرحله دوم:</strong> اضافه کردن قالب‌های متنوع و سیستم ردیابی</p>
+                <p><strong>مرحله سوم:</strong> ویژگی‌های پیشرفته مثل تحلیل خودکار آگهی‌ها</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

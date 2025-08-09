@@ -1,0 +1,223 @@
+{% load resume_filters %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست رزومه‌ها</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .search-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+        .resume-card {
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+        .resume-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .stats-bar {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .custom-date-fields {
+            display: none;
+        }
+        .custom-date-fields.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- هدر صفحه -->
+                <div class="text-center mb-4">
+                    <h1 class="display-4">📋 لیست رزومه‌ها</h1>
+                    <div class="mt-3">
+                        <a href="/create/" class="btn btn-success btn-lg">➕ ایجاد رزومه جدید</a>
+                        <a href="/" class="btn btn-outline-primary">🏠 صفحه اصلی</a>
+                    </div>
+                </div>
+
+                <!-- آمار -->
+                <div class="stats-bar">
+                    <strong>نمایش {{ total_count }} رزومه از مجموع {{ all_count }} رزومه</strong>
+                </div>
+
+                <!-- فرم جستجو -->
+                <div class="search-card">
+                    <h4 class="mb-3">🔍 جستجو و فیلتر</h4>
+                    <form method="get">
+                        <div class="row g-3">
+                            <!-- جستجوی نام شرکت -->
+                            <div class="col-md-3">
+                                <label for="company_search" class="form-label">جستجو در نام شرکت</label>
+                                {{ form.company_search }}
+                            </div>
+                            
+                            <!-- فیلتر دسته‌بندی -->
+                            <div class="col-md-3">
+                                <label for="job_category" class="form-label">دسته‌بندی شغلی</label>
+                                {{ form.job_category }}
+                            </div>
+                            
+                            <!-- فیلتر نوع قرارداد -->
+                            <div class="col-md-3">
+                                <label for="contract_type" class="form-label">نوع قرارداد</label>
+                                {{ form.contract_type }}
+                            </div>
+                            
+                            <!-- فیلتر زبان رزومه -->
+                            <div class="col-md-3">
+                                <label for="language" class="form-label">زبان رزومه</label>
+                                {{ form.language }}
+                            </div>
+                            
+                            <!-- فیلتر تاریخ -->
+                            <div class="col-md-4">
+                                <label for="date_filter" class="form-label">فیلتر تاریخ</label>
+                                {{ form.date_filter }}
+                            </div>
+                        </div>
+                        
+                        <!-- فیلدهای تاریخ دلخواه -->
+                        <div class="custom-date-fields mt-3" id="customDateFields">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="date_from" class="form-label">از تاریخ</label>
+                                    {{ form.date_from }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="date_to" class="form-label">تا تاریخ</label>
+                                    {{ form.date_to }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- دکمه‌های عمل -->
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">🔍 جستجو</button>
+                                <a href="/resumes/" class="btn btn-secondary">🔄 پاک کردن فیلتر</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- نتایج -->
+                {% if resumes %}
+                    <div class="row">
+                        {% for resume in resumes %}
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="card resume-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ resume.title }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ resume.company_name }}</h6>
+                                    
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <strong>سمت:</strong> {{ resume.job_title }}<br>
+                                            <strong>دسته‌بندی:</strong> {{ resume.get_job_category_display }}<br>
+                                            <strong>نوع قرارداد:</strong> {{ resume.get_contract_type_display }}<br>
+                                            <strong>زبان:</strong> {{ resume.get_language_display }}<br>
+                                            <strong>متقاضی:</strong> {{ resume.personal_info.name }}
+                                        </small>
+                                    </div>
+                                    
+                                    {% if resume.target_salary %}
+                                        <div class="alert alert-info py-1 px-2 mb-2">
+                                            <small><strong>حقوق:</strong> {{ resume.target_salary|format_salary }}</small>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if resume.job_source %}
+                                        <div class="mb-2">
+                                            <span class="badge bg-secondary">{{ resume.job_source.name }}</span>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="text-muted mb-3">
+                                        <small>📅 {{ resume.created_at|persian_date }} / {{ resume.created_at|date:"Y/m/d" }} ({{ resume.created_at|days_ago }})</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-footer bg-transparent">
+                                    <div class="d-grid gap-2">
+                                        <a href="/resumes/{{ resume.id }}/" class="btn btn-outline-primary btn-sm">👁️ جزئیات</a>
+                                        <div class="row g-1">
+                                            <div class="col-6">
+                                                <a href="/resumes/{{ resume.id }}/pdf/" class="btn btn-outline-success btn-sm w-100" target="_blank">📄 PDF</a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="/resumes/{{ resume.id }}/copy/" class="btn btn-outline-warning btn-sm w-100">📋 کپی</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <div class="alert alert-warning">
+                            <h4>🔍 نتیجه‌ای یافت نشد</h4>
+                            <p>با فیلترهای انتخابی هیچ رزومه‌ای پیدا نشد. فیلترها را تغییر دهید یا رزومه جدید ایجاد کنید.</p>
+                            <a href="/create/" class="btn btn-success">➕ ایجاد رزومه جدید</a>
+                            <a href="/resumes/" class="btn btn-primary">🔄 نمایش همه</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // نمایش/مخفی کردن فیلدهای تاریخ دلخواه
+        document.getElementById('date_filter').addEventListener('change', function() {
+            const customFields = document.getElementById('customDateFields');
+            if (this.value === 'custom') {
+                customFields.classList.add('show');
+            } else {
+                customFields.classList.remove('show');
+            }
+        });
+
+        // بررسی مقدار اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateFilter = document.getElementById('date_filter');
+            const customFields = document.getElementById('customDateFields');
+            if (dateFilter.value === 'custom') {
+                customFields.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>
